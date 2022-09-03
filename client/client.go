@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 
 	pb "github.com/afa4/golang-grpc/protos"
 	"google.golang.org/grpc"
@@ -17,11 +18,13 @@ func StartClient() {
 	}
 	defer conn.Close()
 	serviceClient := pb.NewIsEvenServiceClient(conn)
-	reply, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: 122})
+
+	integer := rand.Int31()
+	reply, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: integer})
 	if err != nil {
 		log.Fatalln("Failed to call IsEven service")
 	}
-	fmt.Println(reply.GetIsEven())
+	fmt.Printf("IsEven remote response for input %d = %t\n", integer, reply.GetIsEven())
 }
 
 func main() {

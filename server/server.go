@@ -16,6 +16,7 @@ type isEvenService struct {
 }
 
 func (*isEvenService) IsEven(context context.Context, req *pb.IsEvenRequest) (*pb.IsEvenReply, error) {
+	fmt.Printf("IsEven remote call for input %d\n", req.Integer)
 	return &pb.IsEvenReply{IsEven: req.Integer%2 == 0}, nil
 }
 
