@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
 	context "context"
@@ -35,4 +35,8 @@ func StartServer() {
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+}
+
+func main() {
+	StartServer()
 }
