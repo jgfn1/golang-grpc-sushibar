@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/afa4/golang-grpc/protos";
+
+package helloworld;
+
+service IsEvenService {
+  // Sends a greeting
+  rpc IsEven (IsEvenRequest) returns (IsEvenReply) {}
+}
+
+message IsEvenRequest {
+  int32 integer = 1;
+}
+
+message IsEvenReply {
+  bool isEven = 1;
+}
