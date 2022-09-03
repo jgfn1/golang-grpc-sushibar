@@ -16,3 +16,19 @@ $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 ```shell
 ./generate_protos.sh
 ```
+
+## Excecution
+
+server
+
+```shell
+# in golang-grpc folder
+$ go run go run server/server.go
+```
+
+client
+
+```shell
+# in golang-grpc folder
+$ go run go run client/client.go
+```
