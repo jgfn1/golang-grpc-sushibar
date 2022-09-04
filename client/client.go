@@ -27,7 +27,7 @@ func StartClient() {
 
 	var source = rand.NewSource(time.Now().UnixNano())
 	var rand = rand.New(source)
-	integer := rand.Int31()
+	integer := rand.Int31n(9)
 	reply, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: integer})
 	if err != nil {
 		log.Fatalln("Failed to call IsEven service")
