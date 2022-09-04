@@ -1,3 +1,8 @@
+// Team members
+// Gerson Fialho | jgfn1
+// Arthur Frade | afa4
+// César Silva | accs2
+
 package main
 
 import (
