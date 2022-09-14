@@ -8,33 +8,52 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"math/rand"
+	"strconv"
+	"os"
 	"time"
-
 	pb "github.com/afa4/golang-grpc/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func StartClient() {
+func StartClient(numberOfRequests int) (int, error) {
 	conn, err := grpc.Dial(":50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("Failed to start client %v", err)
+		panic(err)
 	}
 	defer conn.Close()
 	serviceClient := pb.NewIsEvenServiceClient(conn)
 
-	var source = rand.NewSource(time.Now().UnixNano())
-	var rand = rand.New(source)
-	integer := rand.Int31n(9)
-	reply, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: integer})
-	if err != nil {
-		log.Fatalln("Failed to call IsEven service")
+	var rttsSum = 0
+	for i := 0; i < numberOfRequests; i++{
+		var source = rand.NewSource(time.Now().UnixNano())
+		var rand = rand.New(source)
+		integer := rand.Int31n(9)
+		start := time.Now().UnixMilli()
+		_, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: integer})
+		end := time.Now().UnixMilli()
+		if err != nil {
+			panic(err)
+		}
+
+		rtt := end - start
+		rttsSum += int(rtt)
 	}
-	fmt.Printf("IsEven remote response for input %d = %t\n", integer, reply.GetIsEven())
+	var rttMean = (rttsSum/numberOfRequests)
+	return rttMean, nil
 }
 
 func main() {
-	StartClient()
+	numberOfRequests, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		panic("Fatal error")
+	}
+
+	rttMean, err := StartClient(numberOfRequests)
+	if err != nil {
+		panic("Fatal error")
+	}
+
+	fmt.Print(rttMean)
 }
