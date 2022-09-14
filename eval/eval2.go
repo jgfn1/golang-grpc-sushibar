@@ -8,6 +8,7 @@ import (
 
 func main() {
 	numberOfClientsArray := []int{1, 5, 10, 20, 40, 80}
+
 	requestsPerClient := 1000
 	var wg sync.WaitGroup
 	for _, numberOfClients := range numberOfClientsArray {
@@ -31,5 +32,5 @@ func createClientProcess(numberOfRequests int, wg *sync.WaitGroup) {
 		return
 	}
 	outputStr := string(output)
-	fmt.Printf("mean %d\n", outputStr)
+	fmt.Printf("mean %s\n", outputStr)
 }

@@ -9,9 +9,10 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
-	"strconv"
 	"os"
+	"strconv"
 	"time"
+
 	pb "github.com/afa4/golang-grpc/protos"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -26,13 +27,13 @@ func StartClient(numberOfRequests int) (int, error) {
 	serviceClient := pb.NewIsEvenServiceClient(conn)
 
 	var rttsSum = 0
-	for i := 0; i < numberOfRequests; i++{
+	for i := 0; i < numberOfRequests; i++ {
 		var source = rand.NewSource(time.Now().UnixNano())
 		var rand = rand.New(source)
 		integer := rand.Int31n(9)
-		start := time.Now().UnixMilli()
+		start := time.Now().UnixNano()
 		_, err := serviceClient.IsEven(context.Background(), &pb.IsEvenRequest{Integer: integer})
-		end := time.Now().UnixMilli()
+		end := time.Now().UnixNano()
 		if err != nil {
 			panic(err)
 		}
@@ -40,7 +41,7 @@ func StartClient(numberOfRequests int) (int, error) {
 		rtt := end - start
 		rttsSum += int(rtt)
 	}
-	var rttMean = (rttsSum/numberOfRequests)
+	var rttMean = (rttsSum / numberOfRequests)
 	return rttMean, nil
 }
 
@@ -55,5 +56,5 @@ func main() {
 		panic("Fatal error")
 	}
 
-	fmt.Print(rttMean)
+	fmt.Println(rttMean)
 }
