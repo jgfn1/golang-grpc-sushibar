@@ -30,5 +30,5 @@ client
 
 ```shell
 # in golang-grpc folder
-$ go run go run eval/eval2.go
+$ go run go run client/client.go
 ```
