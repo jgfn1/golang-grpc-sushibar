@@ -21,7 +21,13 @@ type isEvenService struct {
 }
 
 func (*isEvenService) IsEven(context context.Context, req *pb.IsEvenRequest) (*pb.IsEvenReply, error) {
-	fmt.Printf("IsEven remote call for input %d\n", req.Integer)
+	// fmt.Printf("IsEven remote call for input %d\n", req.Integer)
+	fmt.Printf("Customer %d arrived and waiting\n", req.Integer)
+	if(req.Integer % int32(5) == int32(0)){
+		fmt.Printf("\nFriends %d, %d, %d, %d, %d are now eating sushi\n\n", req.Integer, req.Integer - 1, req.Integer - 2, req.Integer - 3 , req.Integer - 4)		
+		return &pb.IsEvenReply{IsEven: req.Integer%2 == 0}, nil
+	}
+	fmt.Printf("Customer %d sitting\n", req.Integer)
 	return &pb.IsEvenReply{IsEven: req.Integer%2 == 0}, nil
 }
 
