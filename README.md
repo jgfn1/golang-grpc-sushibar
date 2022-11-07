@@ -17,12 +17,12 @@ $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 ./generate_protos.sh
 ```
 
-## Excecution
+## Excecution (please follow the order)
 
 server
 
 ```shell
-# in golang-grpc folder
+# in golang-grpc-sushibar folder
 $ go run go run server/server.go
 ```
 
@@ -30,5 +30,5 @@ client
 
 ```shell
 # in golang-grpc folder
-$ go run go run client/client.go
+$ go run go run eval/eval2.go
 ```
